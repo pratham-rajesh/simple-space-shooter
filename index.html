@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Space Shooter - Canvas</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <canvas id="gameCanvas" width="800" height="600"></canvas>
+      <div id="overlay" class="overlay"></div>
+    </div>
+    <script type="module" src="src/main.js"></script>
+    <script>
+      // Lightweight runtime error catcher and visual fallback.
+      (function(){
+        const overlay = document.getElementById('overlay');
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext && canvas.getContext('2d');
+
+        function showError(msg){
+          overlay.innerHTML = '';
+          const box = document.createElement('div'); box.className = 'centerText';
+          const pre = document.createElement('pre'); pre.style.maxWidth = '90%'; pre.style.whiteSpace = 'pre-wrap'; pre.textContent = msg;
+          box.innerHTML = '<div class="title">Error</div>';
+          box.appendChild(pre);
+          box.innerHTML += '<div class="hint">Check DevTools console for details.</div>';
+          overlay.appendChild(box);
+          overlay.style.pointerEvents = 'auto';
+        }
+
+        window.addEventListener('error', function(e){
+          try{ showError(e.message + ' — ' + e.filename + ':' + e.lineno); }catch(err){}
+          console.error(e.error || e.message || e);
+        });
+        window.addEventListener('unhandledrejection', function(e){
+          try{ showError('UnhandledRejection: ' + (e.reason && e.reason.message ? e.reason.message : String(e.reason))); }catch(err){}
+          console.error('UnhandledRejection', e.reason);
+        });
+
+        // draw a simple fallback message to show the canvas is alive
+        if(ctx){
+          let tick = 0;
+          setInterval(()=>{
+            try{
+              ctx.clearRect(0,0,canvas.width,canvas.height);
+              ctx.fillStyle = '#041020'; ctx.fillRect(0,0,canvas.width,canvas.height);
+              ctx.fillStyle = '#66e0ff'; ctx.font = '20px sans-serif';
+              ctx.fillText('Space Shooter — fallback view', 20, 40);
+              ctx.fillStyle = '#dfe6f8'; ctx.font = '14px sans-serif';
+              ctx.fillText('If you see this, the module may not have initialized. Open DevTools (Console).', 20, 64);
+              tick++;
+            }catch(err){}
+          }, 1000);
+        }
+      })();
+    </script>
+  </body>
+</html>
