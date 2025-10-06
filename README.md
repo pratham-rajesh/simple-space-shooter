@@ -65,15 +65,5 @@ This runs `node test/run-tests.mjs` and exercises a few utility functions.
 - The HUD and overlay are single persistent DOM elements to avoid per-frame DOM churn.
 - For debugging, a small on-screen debug panel is available when running locally.
 
-🙏 Contributions & License
-- This is intended as a learning/demo project. Feel free to fork and modify.
-- No license file included — add one if you plan to distribute or publish.
 
----
 
-If you'd like, I can also:
-- Add a polished icon and favicon.
-- Add more unit tests (entities, game logic).
-- Create a small GitHub Actions workflow to run the tests automatically.
-
-Enjoy — and let me know if you want new features (power-ups, sound, levels)! 🎯
